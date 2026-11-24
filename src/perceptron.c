@@ -36,8 +36,7 @@ void train(Perceptron *p, float inputs[],
 
     for (int i = 0; i < INPUTS; i++) {
 
-        p->weights[i] +=
-            p->learning_rate * error * inputs[i];
+        p->weights[i] += p->learning_rate * error * inputs[i];
     }
 
     p->bias += p->learning_rate * error;
