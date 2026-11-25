@@ -33,10 +33,8 @@ int main(char **argv) {
        train.rows, train.cols, test.rows);
 
     
-    char history[512], predictions[512], model_file[512];
+    char history[512];
     snprintf(history, sizeof(history), "%s_history.csv", argv[5]);
-    snprintf(predictions, sizeof(predictions), "%s_predictions.csv", argv[5]);
-    snprintf(model_file, sizeof(model_file), "%s_model.txt", argv[5]);
     int ok = perceptron_train(&model, train.x, train.y, train.rows, history);
 
     perceptron_free(&model); dataset_free(&train); dataset_free(&test);
