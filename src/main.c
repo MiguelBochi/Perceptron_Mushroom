@@ -20,63 +20,26 @@ int main(int argc, char **argv) {
     Dataset train = {0}, test = {0};
 
     dataset_load_csv(argv[1], &train);
-    dataset_load_csv(argv[2], &test);
+    // caso a função dataset_load falhe ele limpa a memoria do treino
+    if(!dataset_load_csv(argv[2], &test)) {
+        dataset_free(&train);
+    }
+
+    Perceptron model = {0};
+
+    // inicia o perceptron
+    perceptron_init(&model, train.cols, rate, epochs);
+    printf("Treino: %d amostras | Atributos: %d | Teste: %d amostras\n",
+       train.rows, train.cols, test.rows);
 
     
+    char history[512], predictions[512], model_file[512];
+    snprintf(history, sizeof(history), "%s_history.csv", argv[5]);
+    snprintf(predictions, sizeof(predictions), "%s_predictions.csv", argv[5]);
+    snprintf(model_file, sizeof(model_file), "%s_model.txt", argv[5]);
+    int ok = perceptron_train(&model, train.x, train.y, train.rows, history);
 
-
-
-    Perceptron p;
-
-    initialize(&p);
-
-    float inputs[4][2] = {
-        {0, 0},
-        {0, 1},
-        {1, 0},
-        {1, 1}
-    };
-
-    int expected[4] = {
-        0, 0, 0, 1
-    };
-
-    // Treinamento
-    for (int epoch = 0; epoch < 100; epoch++) {
-
-        int errors = 0;
-
-        for (int i = 0; i < 4; i++) {
-
-            int prediction = predict(&p, inputs[i]);
-
-            if (prediction != expected[i]) {
-                errors++;
-            }
-
-            train(&p, inputs[i], expected[i]);
-        }
-
-        printf("Epoca %d | Erros: %d\n",
-               epoch + 1, errors);
-
-        if (errors == 0) {
-            break;
-        }
-    }
-
-    // Testando o Perceptron
-    printf("\nResultados:\n");
-
-    for (int i = 0; i < 4; i++) {
-
-        int result = predict(&p, inputs[i]);
-
-        printf("%.0f AND %.0f = %d\n",
-               inputs[i][0],
-               inputs[i][1],
-               result);
-    }
-
+    perceptron_free(&model); dataset_free(&train); dataset_free(&test);
     return 0;
+
 }
