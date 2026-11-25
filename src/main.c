@@ -1,7 +1,30 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "dataset.h"
 #include "perceptron.h"
 
-int main() {
+
+// a main recebe um numero de argumentos inteiros pelo argc 
+// e um ponteiro que armazena os argumentos pelo argv.
+int main(int argc, char **argv) {
+
+    // converte para inteiro
+    // epochs é as epocas
+    int epochs = atoi(argv[3]);
+    // converta decimal
+    // taxa de aprendizagem
+    double rate = atof(argv[4]);
+
+
+    // inicializa o dataset
+    Dataset train = {0}, test = {0};
+
+    dataset_load_csv(argv[1], &train);
+    dataset_load_csv(argv[2], &test);
+
+    
+
+
 
     Perceptron p;
 
