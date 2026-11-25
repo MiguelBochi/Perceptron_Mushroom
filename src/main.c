@@ -6,7 +6,7 @@
 
 // a main recebe um numero de argumentos inteiros pelo argc 
 // e um ponteiro que armazena os argumentos pelo argv.
-int main(int argc, char **argv) {
+int main(char **argv) {
 
     // converte para inteiro
     // epochs é as epocas
