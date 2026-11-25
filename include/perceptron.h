@@ -1,17 +1,15 @@
 #ifndef PERCEPTRON_H
 #define PERCEPTRON_H
-
-#define INPUTS 2
-
 typedef struct {
-    float weights[INPUTS];
-    float bias;
-    float learning_rate;
+    int n_features;
+    double *weights;
+    double bias;
+    double learning_rate;
+    int epochs;
 } Perceptron;
-
-void initialize(Perceptron *p);
-int predict(Perceptron *p, float inputs[]);
-void train(Perceptron *p, float inputs[],
-           int expected);
-
+int perceptron_init(Perceptron *model, int n_features, double learning_rate, int epochs);
+void perceptron_free(Perceptron *model);
+int perceptron_predict(const Perceptron *model, const double *x);
+int perceptron_train(Perceptron *model, double **x, const int *y, int n_samples, const char *history_path);
+int perceptron_save(const Perceptron *model, const char *path);
 #endif
